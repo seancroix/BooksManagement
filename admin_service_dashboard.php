@@ -35,6 +35,10 @@ $adminId = $_SESSION["adminId"];
         float: left;
         width: 25%;
     }
+    .rightinnerdiv {
+        float: right;
+        width: 75%;
+    }
 
     .bluebtn {
         background-color: blue;
@@ -54,14 +58,19 @@ $adminId = $_SESSION["adminId"];
                 <Button class="bluebtn">Admin</Button>
                 <Button class="bluebtn" onclick="openpart('addbook')">ADD BOOK</Button>
                 <Button class="bluebtn" onclick="openpart('bookreport')"> BOOK REPORT</Button>
-                <Button class="bluebtn" onclick="openpart('bookrequestapprove')"> BOOK REQUESTS</Button>
+                <Button class="bluebtn" onclick="openpart('approvebookrequest')"> BOOK REQUESTS</Button>
                 <Button class="bluebtn" onclick="openpart('addperson')"> ADD STUDENT</Button>
                 <Button class="bluebtn" onclick="openpart('studentrecord')"> STUDENT REPORT</Button>
                 <Button class="bluebtn" onclick="openpart('issuebook')"> ISSUE BOOK</Button>
                 <Button class="bluebtn" onclick="openpart('issuebookreport')"> ISSUE REPORT</Button>
                 <a href="index.php"><Button class="bluebtn"> LOGOUT</Button></a>
+            </div>
 
-
+            <div class="rightinnerdiv">
+            <div id="approvebookrequest" class="innerright portion" style="display:none">
+            <button class="bluebtn" >BOOK REQUEST APPROVE</button>
+        
+                </div>
             </div>
         </div>
     </div>
