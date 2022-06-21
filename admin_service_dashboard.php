@@ -67,6 +67,26 @@ $adminId = $_SESSION["adminId"];
             </div>
 
             <div class="rightinnerdiv">
+            <div id="addperson" class="innerright portion" style="display:none">
+            <button class="bluebtn">ADD PERSON</button>
+            <form action="addpersonserver_page.php" method="post" enctype="multipart/form-data">
+            <label>Name:</label><input type="text" name="addname"/>
+            <br>
+            <label>Password:</label><input type="password" name="addpass"/>
+            <br>
+            <label>Email:</label><input type="email" name="addemail"/></br>
+            <label for="type">Choose type:</label>
+            <select name="type">
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+            
+            <input type="submit" value="SUBMIT"/>
+            </form>
+            </div>
+            </div>    
+
+            <div class="rightinnerdiv">
             <div id="approvebookrequest" class="innerright portion" style="display:none">
             <button class="bluebtn" >BOOK REQUEST APPROVE</button>
         
