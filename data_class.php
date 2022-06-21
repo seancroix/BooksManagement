@@ -49,7 +49,8 @@ function addnewuser($name,$password,$email,$type){
     $this->email=$email;
     $this->type=$type;
 
-    $q="INSERT INTO userdata(id,name,email,pass,type)VALUES('','$name','$email','$password','$type')";
+    $q="INSERT INTO userdata(id,name,email,pass,type)
+            VALUES('','$name','$email','$password','$type')";
     if($this->connection->exec($q)){
         header("Location:admin_service_dashboard.php?msg=Added Succesfully!");
     }
@@ -57,6 +58,29 @@ function addnewuser($name,$password,$email,$type){
         header("Location:admin_service_dashboard.php?msg=Register failed!");
     }
 }
+
+function addbook($bookpic,$bookname,$bookdetail,$bookauthor,$bookpublish,$branch,$bookprice,$bookquantity){
+    $this->bookpic=$bookpic;
+    $this->bookname=$bookname;
+    $this->bookdetail=$bookdetail;
+    $this->bookauthor=$bookauthor;
+    $this->bookpublish=$bookpublish;
+    $this->branch=$branch;
+    $this->bookprice=$bookprice;
+    $this->bookquantity=$bookquantity;
+    
+    $q="INSERT INTO book (id, bookpic, bookname, bookdetail, bookauthor, bookpublish, branch, bookprice, bookquantity, bookava, bookrent) 
+            VALUES('', '$bookpic', '$bookname', '$bookdetail', '$bookauthor', '$bookpublish', '$branch', '$bookprice', '$bookquantity', 0)";
+
+
+    if($this->connection->exec($q)){
+        header("Location:admin_service_dashboard.php?msg=Done!");
+    }
+    else{
+        header("Location:admin_service_dashboard.php?msg=Failed!");
+    }
+}
+
 
 
 }
