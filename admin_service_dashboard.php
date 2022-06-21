@@ -66,14 +66,16 @@ $adminId = $_SESSION["adminId"];
                 <a href="index.php"><Button class="bluebtn"> LOGOUT</Button></a>
             </div>
 
+
+            <!-- Adding Person Whether Student or Teacher -->
             <div class="rightinnerdiv">
             <div id="addperson" class="innerright portion" style="display:none">
             <button class="bluebtn">ADD PERSON</button>
             <form action="addpersonserver_page.php" method="post" enctype="multipart/form-data">
             <label>Name:</label><input type="text" name="addname"/>
-            <br>
+            </br>
             <label>Password:</label><input type="password" name="addpass"/>
-            <br>
+            </br>
             <label>Email:</label><input type="email" name="addemail"/></br>
             <label for="type">Choose type:</label>
             <select name="type">
@@ -86,6 +88,34 @@ $adminId = $_SESSION["adminId"];
             </div>
             </div>    
 
+            <!-- Adding Book -->
+            <div class="rightinnerdiv">   
+            <div id="addbook" class="innerright portion" style="<?php  if(!empty($_REQUEST['viewid'])){ echo "display:none";} else {echo ""; }?>">
+            <Button class="bluebtn" >ADD NEW BOOK</Button>
+            <form action="addbook_page.php" method="post" enctype="multipart/form-data">
+            <label>Book Name:</label><input type="text" name="bookname"/>
+            </br>
+            <label>Detail:</label><input  type="text" name="bookdetail"/></br>
+            <label>Author:</label><input type="text" name="bookauthor"/></br>
+            <label>Publication</label><input type="text" name="bookpublish"/></br>
+            <div>Branch:<input type="radio" name="branch" value="other"/>Other<input type="radio" name="branch" value="BSIT"/>BSIT<div style="margin-left:80px"><input type="radio" name="branch" value="BSCS"/>BSCS<input type="radio" name="branch" value="BSSE"/>BSSE</div>
+            </div>   
+            <label>Price:</label><input  type="number" name="bookprice"/></br>
+            <label>Quantity:</label><input type="number" name="bookquantity"/></br>
+            <label>Book Photo</label><input  type="file" name="bookphoto"/></br>
+            </br>
+   
+            <input type="submit" value="SUBMIT"/>
+            </br>
+            </br>
+
+            </form>
+            </div>
+            </div>
+
+
+
+            <!-- Book Request  -->
             <div class="rightinnerdiv">
             <div id="approvebookrequest" class="innerright portion" style="display:none">
             <button class="bluebtn" >BOOK REQUEST APPROVE</button>
