@@ -1,7 +1,6 @@
 <?php
-
-
-session_start();
+include("data_class.php");
+// session_start();
 
 $adminId = $_SESSION["adminId"];
 ?>
@@ -71,7 +70,7 @@ $adminId = $_SESSION["adminId"];
             <div class="rightinnerdiv">
             <div id="addperson" class="innerright portion" style="display:none">
             <button class="bluebtn">ADD PERSON</button>
-            <form action="addpersonserver_page.php" method="post" enctype="multipart/form-data">
+            <form action="addperson_page.php" method="post" enctype="multipart/form-data">
             <label>Name:</label><input type="text" name="addname"/>
             </br>
             <label>Password:</label><input type="password" name="addpass"/>
@@ -87,6 +86,38 @@ $adminId = $_SESSION["adminId"];
             </form>
             </div>
             </div>    
+
+            <!-- Student Reporting -->
+            <div class="rightinnerdiv">   
+            <div id="studentrecord" class="innerright portion" style="display:none">
+            <Button class="bluebtn" >Student RECORD</Button>
+
+            <?php
+            $u=new data;
+            $u->setconnection();
+            $u->userdata();
+            $recordset=$u->userdata();
+
+            $table="<table style='font-family: Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;'><tr><th style='  border: 1px solid #ddd;
+            padding: 8px;'> Name</th><th>Email</th><th>Type</th></tr>";
+            foreach($recordset as $row){
+                $table.="<tr>";
+               "<td>$row[0]</td>";
+                $table.="<td>$row[1]</td>";
+                $table.="<td>$row[2]</td>";
+                $table.="<td>$row[4]</td>";
+                $table.="<td><a href='userdelete.php?useriddelete=$row[0]'><button type='button' class='btn btn-primary'>Delete</button></a></td>";
+                $table.="</tr>";
+                // $table.=$row[0];
+            }
+            $table.="</table>";
+
+            echo $table;
+            ?>
+
+            </div>
+            </div>
+
 
             <!-- Adding Book -->
             <div class="rightinnerdiv">   
@@ -112,8 +143,6 @@ $adminId = $_SESSION["adminId"];
             </form>
             </div>
             </div>
-
-
 
             <!-- Book Request  -->
             <div class="rightinnerdiv">
