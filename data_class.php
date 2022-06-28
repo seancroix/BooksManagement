@@ -73,7 +73,7 @@ function addbook($bookpic,$bookname,$bookdetail,$bookauthor,$bookpublish,$branch
             VALUES('', '$bookpic', '$bookname', '$bookdetail', '$bookauthor', '$bookpublish', '$branch', '$bookprice', '$bookquantity', 0)";
 
 
-    if($this->connection->exec($q)){
+    if($this->connection->exec($q)) {
         header("Location:admin_service_dashboard.php?msg=Done!");
     }
     else{
@@ -88,6 +88,15 @@ function userdata(){
     return $data;
     
 }
+
+function getbook(){
+    $q="SELECT * FROM book ";
+    $data=$this->connection->query($q);
+    return $data;
+    
+}
+
+
 
 function deleteuserdata($id){
     $q="DELETE from userdata where id='$id'";

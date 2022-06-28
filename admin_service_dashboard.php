@@ -85,7 +85,41 @@ $adminId = $_SESSION["adminId"];
             <input type="submit" value="SUBMIT"/>
             </form>
             </div>
-            </div>    
+            </div>
+            
+            <!-- Book Reporting -->
+            <div class="rightinnerdiv">   
+            <div id="bookreport" class="innerright portion" style="display:none">
+            <Button class="bluebtn" >BOOK RECORD</Button>
+            <?php
+            $u=new data;
+            $u->setconnection();
+            $u->getbook();
+            $recordset=$u->getbook();
+
+            $table="<table style='font-family: Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;'><tr><th style='  border: 1px solid #ddd;
+            padding: 8px;'>Book Name</th><th>Price</th><th>Qnt</th><th>Available</th><th>Rent</th></th><th>View</th></tr>";
+            foreach($recordset as $row){
+                $table.="<tr>";
+               "<td>$row[0]</td>";
+                $table.="<td>$row[2]</td>";
+                $table.="<td>$row[7]</td>";
+                $table.="<td>$row[8]</td>";
+                $table.="<td>$row[9]</td>";
+                $table.="<td>$row[10]</td>";
+                $table.="<td><button type='button' class='btn btn-primary'>View Book<a href='admin_service_dashboard.php?viewid=$row[0]'></button></a></td>";
+                $table.="</tr>";
+                // $table.=$row[0];
+            }
+            $table.="</table>";
+
+            echo $table;
+            ?>
+
+            </div>
+            </div>
+
+            
 
             <!-- Student Reporting -->
             <div class="rightinnerdiv">   
