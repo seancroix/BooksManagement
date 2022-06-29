@@ -21,6 +21,9 @@ $adminId = $_SESSION["adminId"];
 </head>
 
 <style>
+a{
+    text-decoration:none;
+}    
     .logo {
         margin: auto;
     }
@@ -86,6 +89,47 @@ $adminId = $_SESSION["adminId"];
             </form>
             </div>
             </div>
+
+            <!-- Issue book  -->
+            <div class="rightinnerdiv">   
+            <div id="issuebook" class="innerright portion" style="display:none">
+            <Button class="bluebtn" >ISSUE BOOK</Button>
+            <form action="issuebook_server.php" method="post" enctype="multipart/form-data">
+            <label for="book">Choose Book:</label>
+            <select name="book" >
+            <?php
+            $u=new data;
+            $u->setconnection();
+            $u->getbookissue();
+            $recordset=$u->getbookissue();
+            foreach($recordset as $row){
+
+                echo "<option value='". $row[2] ."'>" .$row[2] ."</option>";
+        
+            }            
+            ?>
+            </select>
+
+            <label for="Select Student">:</label>
+            <select name="userselect" >
+            <?php
+            $u=new data;
+            $u->setconnection();
+            $u->userdata();
+            $recordset=$u->userdata();
+            foreach($recordset as $row){
+               $id= $row[0];
+                echo "<option value='". $row[1] ."'>" .$row[1] ."</option>";
+            }            
+            ?>
+            </select>
+<br>
+            Days<input type="number" name="days"/>
+
+            <input type="submit" value="SUBMIT"/>
+            </form>
+            </div>
+            </div>
             
             <!-- Book Reporting -->
             <div class="rightinnerdiv">   
@@ -107,7 +151,7 @@ $adminId = $_SESSION["adminId"];
                 $table.="<td>$row[8]</td>";
                 $table.="<td>$row[9]</td>";
                 $table.="<td>$row[10]</td>";
-                $table.="<td><button type='button' class='btn btn-primary'>View Book<a href='admin_service_dashboard.php?viewid=$row[0]'></button></a></td>";
+                $table.="<td><a href='admin_service_dashboard.php?viewid=$row[0]'><button type='button' class='btn btn-primary'>View Book</button></a></td>";
                 $table.="</tr>";
                 // $table.=$row[0];
             }
@@ -119,7 +163,49 @@ $adminId = $_SESSION["adminId"];
             </div>
             </div>
 
+            <!-- Book Detail -->
+
+            <div class="rightinnerdiv">   
+            <div id="bookdetail" class="innerright portion" style="<?php  if(!empty($_REQUEST['viewid'])){ $viewid=$_REQUEST['viewid'];} else {echo "display:none"; }?>">
             
+            <Button class="bluebtn" >BOOK DETAIL</Button>
+</br>
+<?php
+            $u=new data;
+            $u->setconnection();
+            $u->getbookdetail($viewid);
+            $recordset=$u->getbookdetail($viewid);
+            foreach($recordset as $row){
+
+                $bookid= $row[0];
+               $bookimg= $row[1];
+               $bookname= $row[2];
+               $bookdetail= $row[3];
+               $bookauthor= $row[4];
+               $bookpublish= $row[5];
+               $branch= $row[6];
+               $bookprice= $row[7];
+               $bookquantity= $row[8];
+               $bookava= $row[9];
+               $bookrent= $row[10];
+
+            }            
+?>
+
+            <img width='150px' height='150px' style='border:1px solid #333333; float:left;margin-left:20px' src="uploads/<?php echo $bookimg?> "/>
+            </br>
+            <p style="color:black"><u>Book Name:</u> &nbsp&nbsp<?php echo $bookname ?></p>
+            <p style="color:black"><u>Book Detail:</u> &nbsp&nbsp<?php echo $bookdetail ?></p>
+            <p style="color:black"><u>Book Authour:</u> &nbsp&nbsp<?php echo $bookauthor ?></p>
+            <p style="color:black"><u>Book Publisher:</u> &nbsp&nbsp<?php echo $bookpublish ?></p>
+            <p style="color:black"><u>Book Branch:</u> &nbsp&nbsp<?php echo $branch ?></p>
+            <p style="color:black"><u>Book Price:</u> &nbsp&nbsp<?php echo $bookprice ?></p>
+            <p style="color:black"><u>Book Available:</u> &nbsp&nbsp<?php echo $bookava ?></p>
+            <p style="color:black"><u>Book Rent:</u> &nbsp&nbsp<?php echo $bookrent ?></p>
+
+
+            </div>
+            </div>
 
             <!-- Student Reporting -->
             <div class="rightinnerdiv">   

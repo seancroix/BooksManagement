@@ -89,6 +89,18 @@ function userdata(){
     
 }
 
+function getbookissue(){
+    $q="SELECT * FROM book where bookava !=0 ";
+    $data=$this->connection->query($q);
+    return $data;
+}
+
+function getbookdetail(){
+    $q="SELECT * FROM book where id = '$id'";
+    $data=$this->connection->query($q);
+    return $data;
+}
+
 function getbook(){
     $q="SELECT * FROM book ";
     $data=$this->connection->query($q);
@@ -110,5 +122,57 @@ function deleteuserdata($id){
 
 }
 
+function issuebook($book,$userselect,$days,$getdate,$returnDate){
+    $this->$book= $book;
+    $this->$userselect=$userselect;
+    $this->$days=$days;
+    $this->$getdate=$getdate;
+    $this->$returnDate=$returnDate;
+
+    $q="SELECT * FROM book where bookname='$book'";
+    $recordSetss=$this->connection->query($q);
+
+    $q="SELECT * FROM userdata where name='$userselect'";
+    $recordSet=$this->connection->query($q);
+    $result=$recordSet->rowCount();
+
+    if ($result > 0) {
+
+        foreach($recordSet->fetchAll() as $row) {
+            $issueid=$row['id'];
+            $issuetype=$row['type'];
+
+            // header("location: admin_service_dashboard.php?logid=$logid");
+        }
+        foreach($recordSetss->fetchAll() as $row) {
+            $bookid=$row['id'];
+            $bookname=$row['bookname'];
+
+                $newbookava=$row['bookava']-1;
+                 $newbookrent=$row['bookrent']+1;
+        }
+
+        $q="UPDATE book SET bookava='$newbookava', bookrent='$newbookrent' where id='$bookid'";
+            if($this->connection->exec($q)){
+
+            $q="INSERT INTO issuebook (userid,issuename,issuebook,issuetype,issuedays,issuedate,issuereturn,fine)VALUES('$issueid','$userselect','$book','$issuetype','$days','$getdate','$returnDate','0')";
+
+            if($this->connection->exec($q)) {
+                header("Location:admin_service_dashboard.php?msg=Done!");
+            }
+    
+            else {
+                header("Location:admin_service_dashboard.php?msg=Failed!");
+            }
+            }
+            else{
+               header("Location:admin_service_dashboard.php?msg=Failed!");
+            }
+            }
+
+             else {
+            header("location: index.php?msg=Invalid Credentials!");
+            }
+        }
 
 }
