@@ -2,7 +2,6 @@
 include("data_class.php");
 // session_start();
 
-$adminId = $_SESSION["adminId"];
 ?>
 
 <!DOCTYPE html>
@@ -14,8 +13,8 @@ $adminId = $_SESSION["adminId"];
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="">
 </head>
@@ -60,7 +59,7 @@ a{
                 <Button class="bluebtn">Admin</Button>
                 <Button class="bluebtn" onclick="openpart('addbook')">ADD BOOK</Button>
                 <Button class="bluebtn" onclick="openpart('bookreport')"> BOOK REPORT</Button>
-                <Button class="bluebtn" onclick="openpart('approvebookrequest')"> BOOK REQUESTS</Button>
+                <Button class="bluebtn" onclick="openpart('bookrequestapprove')"> BOOK REQUESTS</Button>
                 <Button class="bluebtn" onclick="openpart('addperson')"> ADD STUDENT</Button>
                 <Button class="bluebtn" onclick="openpart('studentrecord')"> STUDENT REPORT</Button>
                 <Button class="bluebtn" onclick="openpart('issuebook')"> ISSUE BOOK</Button>
@@ -89,6 +88,44 @@ a{
             </form>
             </div>
             </div>
+
+            <!-- Books requested by student/teacher portion -->
+            <div class="rightinnerdiv">   
+            <div id="bookrequestapprove" class="innerright portion" style="display:none">
+            <Button class="bluebtn" >BOOK REQUEST APPROVE</Button>
+
+            <?php
+            $u=new data;
+            $u->setconnection();
+            $u->requestbookdata();
+            $recordset=$u->requestbookdata();
+
+            $table="<table style='font-family: Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;'><tr><th style='  border: 1px solid #ddd;
+            padding: 8px;'>Person Name</th><th>Person type</th><th>Book name</th><th>Days </th><th>Approve</th></tr>";
+            foreach($recordset as $row){
+                $table.="<tr>";
+               "<td>$row[0]</td>";
+              "<td>$row[1]</td>";
+              "<td>$row[2]</td>";
+
+                $table.="<td>$row[3]</td>";
+                $table.="<td>$row[4]</td>";
+                $table.="<td>$row[5]</td>";
+                $table.="<td>$row[6]</td>";
+               // $table.="<td><a href='approvebookrequest.php?reqid=$row[0]&book=$row[5]&userselect=$row[3]&days=$row[6]'><button type='button' class='btn btn-primary'>Approved BOOK</button></a></td>";
+                 $table.="<td><a href='approvebookrequest.php?reqid=$row[0]&book=$row[5]&userselect=$row[3]&days=$row[6]'><button type='button' class='btn btn-primary'>Approve Book?</button></a></td>";
+                // $table.="<td><a href='deletebook_dashboard.php?deletebookid=$row[0]'>Delete</a></td>";
+                $table.="</tr>";
+                // $table.=$row[0];
+            }
+            $table.="</table>";
+
+            echo $table;
+            ?>
+
+            </div>
+            </div>
+
 
             <!-- Issue book  -->
             <div class="rightinnerdiv">   
@@ -130,6 +167,41 @@ a{
             </form>
             </div>
             </div>
+
+            <!-- Issue book report -->
+            <div class="rightinnerdiv">   
+            <div id="issuebookreport" class="innerright portion" style="display:none">
+            <Button class="bluebtn" >Issue Book Record</Button>
+
+            <?php
+            $u=new data;
+            $u->setconnection();
+            $u->issuereport();
+            $recordset=$u->issuereport();
+
+            $table="<table class='table-primary table-striped w-100 px-2' style=''><tr><th style='  border: 1px solid #ddd;
+            padding: 8px;'>Issue Name</th><th>Book Name</th><th>Issue Date</th><th>Return Date</th><th>Fine</th></th><th>Issue Type</th></tr>";
+
+            foreach($recordset as $row){
+                $table.="<tr>";
+               "<td>$row[0]</td>";
+                $table.="<td>$row[2]</td>";
+                $table.="<td>$row[3]</td>";
+                $table.="<td>$row[6]</td>";
+                $table.="<td>$row[7]</td>";
+                $table.="<td>$row[8]</td>";
+                $table.="<td>$row[4]</td>";
+                // $table.="<td><a href='otheruser_dashboard.php?returnid=$row[0]&userlogid=$userloginid'>Return</a></td>";
+                $table.="</tr>";
+                // $table.=$row[0];
+            }
+            $table.="</table>";
+
+            echo $table;
+            ?>
+
+            </div>
+            </div>
             
             <!-- Book Reporting -->
             <div class="rightinnerdiv">   
@@ -142,14 +214,13 @@ a{
             $recordset=$u->getbook();
 
             $table="<table style='font-family: Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;'><tr><th style='  border: 1px solid #ddd;
-            padding: 8px;'>Book Name</th><th>Price</th><th>Qnt</th><th>Available</th><th>Rent</th></th><th>View</th></tr>";
+            padding: 8px;'>Book Name</th><th>Price</th><th>Qnt</th><th>Rent</th></th><th>View</th></tr>";
             foreach($recordset as $row){
                 $table.="<tr>";
                "<td>$row[0]</td>";
                 $table.="<td>$row[2]</td>";
                 $table.="<td>$row[7]</td>";
                 $table.="<td>$row[8]</td>";
-                $table.="<td>$row[9]</td>";
                 $table.="<td>$row[10]</td>";
                 $table.="<td><a href='admin_service_dashboard.php?viewid=$row[0]'><button type='button' class='btn btn-primary'>View Book</button></a></td>";
                 $table.="</tr>";
@@ -174,7 +245,7 @@ a{
             $u=new data;
             $u->setconnection();
             $u->getbookdetail($viewid);
-            $recordset=$u->getbookdetail($viewid);
+            $recordset=$u->getbookdetail($_GET["viewid"] ?? "-1");
             foreach($recordset as $row){
 
                 $bookid= $row[0];
@@ -192,17 +263,51 @@ a{
             }            
 ?>
 
-            <img width='150px' height='150px' style='border:1px solid #333333; float:left;margin-left:20px' src="uploads/<?php echo $bookimg?> "/>
-            </br>
-            <p style="color:black"><u>Book Name:</u> &nbsp&nbsp<?php echo $bookname ?></p>
-            <p style="color:black"><u>Book Detail:</u> &nbsp&nbsp<?php echo $bookdetail ?></p>
-            <p style="color:black"><u>Book Authour:</u> &nbsp&nbsp<?php echo $bookauthor ?></p>
-            <p style="color:black"><u>Book Publisher:</u> &nbsp&nbsp<?php echo $bookpublish ?></p>
-            <p style="color:black"><u>Book Branch:</u> &nbsp&nbsp<?php echo $branch ?></p>
-            <p style="color:black"><u>Book Price:</u> &nbsp&nbsp<?php echo $bookprice ?></p>
-            <p style="color:black"><u>Book Available:</u> &nbsp&nbsp<?php echo $bookava ?></p>
-            <p style="color:black"><u>Book Rent:</u> &nbsp&nbsp<?php echo $bookrent ?></p>
-
+            <div class="d-flex px-4 pt-2">
+            <img class="w-50" src="uploads/<?php echo $bookimg?> "/>
+                <div class="ps-2 text-start">
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Name: </h4> 
+                        <strong><?= $bookname ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Detail: </h4>
+                        <strong><?= $bookdetail ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Author: </h4>
+                        <strong><?= $bookauthor ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Publisher: </h4>
+                        <strong><?= $bookpublish ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Branch: </h4>
+                        <strong><?= $branch ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Price: </h4>
+                        <strong><?= $bookprice ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Available: </h4>
+                        <strong><?= $bookava ?></strong>
+                    </div>
+                    <div class="d-flex gap-1 align-items-center">
+                        <h4>Book Rent: </h4>
+                        <strong><?= $bookrent ?></strong>
+                    </div>
+                    <p style="color:black"><u>Book Name:</u> &nbsp&nbsp<?php echo $bookname ?></p>
+                    <p style="color:black"><u>Book Detail:</u> &nbsp&nbsp<?php echo $bookdetail ?></p>
+                    <p style="color:black"><u>Book Author:</u> &nbsp&nbsp<?php echo $bookauthor ?></p>
+                    <p style="color:black"><u>Book Publisher:</u> &nbsp&nbsp<?php echo $bookpublish ?></p>
+                    <p style="color:black"><u>Book Branch:</u> &nbsp&nbsp<?php echo $branch ?></p>
+                    <p style="color:black"><u>Book Price:</u> &nbsp&nbsp<?php echo $bookprice ?></p>
+                    <p style="color:black"><u>Book Available:</u> &nbsp&nbsp<?php echo $bookava ?></p>
+                    <p style="color:black"><u>Book Rent:</u> &nbsp&nbsp<?php echo $bookrent ?></p>
+                </div>
+            </div>
 
             </div>
             </div>
@@ -243,37 +348,58 @@ a{
             <div class="rightinnerdiv">   
             <div id="addbook" class="innerright portion" style="<?php  if(!empty($_REQUEST['viewid'])){ echo "display:none";} else {echo ""; }?>">
             <Button class="bluebtn" >ADD NEW BOOK</Button>
-            <form action="addbook_page.php" method="post" enctype="multipart/form-data">
-            <label>Book Name:</label><input type="text" name="bookname"/>
-            </br>
-            <label>Detail:</label><input  type="text" name="bookdetail"/></br>
-            <label>Author:</label><input type="text" name="bookauthor"/></br>
-            <label>Publication</label><input type="text" name="bookpublish"/></br>
-            <div>Branch:<input type="radio" name="branch" value="other"/>Other<input type="radio" name="branch" value="BSIT"/>BSIT<div style="margin-left:80px"><input type="radio" name="branch" value="BSCS"/>BSCS<input type="radio" name="branch" value="BSSE"/>BSSE</div>
-            </div>   
-            <label>Price:</label><input  type="number" name="bookprice"/></br>
-            <label>Quantity:</label><input type="number" name="bookquantity"/></br>
-            <label>Book Photo</label><input  type="file" name="bookphoto"/></br>
-            </br>
-   
-            <input type="submit" value="SUBMIT"/>
-            </br>
-            </br>
-
+            <form action="addbook_page.php" class="text-start px-4 pt-2 d-flex flex-column gap-1" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label">Book Name:</label>
+                    <input class="form-control" type="text" name="bookname"/>
+                </div>
+                <div class="mb-3">
+                <label class="form-label">Detail:</label><input class="form-control" type="text" name="bookdetail"/>
+                </div>
+                <div class="mb-3">
+                <label class="form-label">Author:</label><input class="form-control" type="text" name="bookauthor"/>
+                </div>
+                <div class="mb-3">
+                <label class="form-label">Publication</label><input class="form-control" type="text" name="bookpublish"/>
+                </div>
+                <div class="form-check">Branch:
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="BSIT" name="branch" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                        BSIT
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="BSCS" name="branch" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                        BSCS
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="BSSE" name="branch" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                        BSSE
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" value="Other" name="branch" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                        Other
+                        </label>
+                    </div>
+                </div>   
+                <label class="form-label">Price:</label><input class="form-control" type="number" name="bookprice"/>
+                <label class="form-label">Quantity:</label><input class="form-control" type="number" name="bookquantity"/>
+                <label class="form-label">Book Photo</label><input class="form-control" type="file" name="bookphoto"/>
+                <input type="submit" value="SUBMIT"/>
             </form>
             </div>
             </div>
 
-            <!-- Book Request  -->
-            <div class="rightinnerdiv">
-            <div id="approvebookrequest" class="innerright portion" style="display:none">
-            <button class="bluebtn" >BOOK REQUEST APPROVE</button>
-        
-                </div>
-            </div>
+            
         </div>
     </div>
-
+    
     <script>
         function openpart(portion) {
             var i;
