@@ -73,11 +73,13 @@ a{
             <div id="addperson" class="innerright portion" style="display:none">
             <button class="bluebtn">ADD PERSON</button>
             <form action="addperson_page.php" method="post" enctype="multipart/form-data">
-            <label>Name:</label><input type="text" name="addname"/>
+            <div class="mb-3">
+            <label class="form-label">Name:</label><input class="form-control" type="text" name="addname"/>
             </br>
-            <label>Password:</label><input type="password" name="addpass"/>
+            </div>
+            <label class="form-label">Password:</label><input class="form-control" type="password" name="addpass"/>
             </br>
-            <label>Email:</label><input type="email" name="addemail"/></br>
+            <label class="form-label">Email:</label><input class="form-control" type="email" name="addemail"/></br>
             <label for="type">Choose type:</label>
             <select name="type">
                 <option value="student">Student</option>
