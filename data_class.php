@@ -326,7 +326,17 @@ function getbook(){
     
 }
 
+function bookdeletedata($id){
+    $q="DELETE from book where id='$id'";
+    if($this->connection->exec($q)){
 
+        header("Location:admin_service_dashboard.php?msg=Deleted!");
+    }
+    else{
+        header("Location:admin_service_dashboard.php?msg=Delete Failed!");
+    }
+
+}
 
 function deleteuserdata($id){
     $q="DELETE from userdata where id='$id'";

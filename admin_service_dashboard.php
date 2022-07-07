@@ -216,7 +216,7 @@ a{
             $recordset=$u->getbook();
 
             $table="<table style='font-family: Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;'><tr><th style='  border: 1px solid #ddd;
-            padding: 8px;'>Book Name</th><th>Price</th><th>Qnt</th><th>Rent</th></th><th>View</th></tr>";
+            padding: 8px;'>Book Name</th><th>Price</th><th>Qnt</th><th>Rent</th></th><th>View</th><th>Delete?</th></tr>";
             foreach($recordset as $row){
                 $table.="<tr>";
                "<td>$row[0]</td>";
@@ -224,7 +224,8 @@ a{
                 $table.="<td>$row[7]</td>";
                 $table.="<td>$row[8]</td>";
                 $table.="<td>$row[10]</td>";
-                $table.="<td><a href='admin_service_dashboard.php?viewid=$row[0]'><button type='button' class='btn btn-primary'>View Book</button></a></td>";
+                $table.="<td><a href='admin_service_dashboard.php?viewid=$row[0]'><button type='button' class='btn btn-primary'>View Book</button></td>";
+                $table.="<td><a href='bookdelete.php?bookdelete=$row[0]'><button type='button' class='btn btn-primary'>Delete</button></a></td>";
                 $table.="</tr>";
                 // $table.=$row[0];
             }
@@ -300,14 +301,6 @@ a{
                         <h4>Book Rent: </h4>
                         <strong><?= $bookrent ?></strong>
                     </div>
-                    <p style="color:black"><u>Book Name:</u> &nbsp&nbsp<?php echo $bookname ?></p>
-                    <p style="color:black"><u>Book Detail:</u> &nbsp&nbsp<?php echo $bookdetail ?></p>
-                    <p style="color:black"><u>Book Author:</u> &nbsp&nbsp<?php echo $bookauthor ?></p>
-                    <p style="color:black"><u>Book Publisher:</u> &nbsp&nbsp<?php echo $bookpublish ?></p>
-                    <p style="color:black"><u>Book Branch:</u> &nbsp&nbsp<?php echo $branch ?></p>
-                    <p style="color:black"><u>Book Price:</u> &nbsp&nbsp<?php echo $bookprice ?></p>
-                    <p style="color:black"><u>Book Available:</u> &nbsp&nbsp<?php echo $bookava ?></p>
-                    <p style="color:black"><u>Book Rent:</u> &nbsp&nbsp<?php echo $bookrent ?></p>
                 </div>
             </div>
 
@@ -375,12 +368,6 @@ a{
                         <input class="form-check-input" type="radio" value="BSCS" name="branch" id="flexRadioDefault1">
                         <label class="form-check-label" for="flexRadioDefault1">
                         BSCS
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="BSSE" name="branch" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                        BSSE
                         </label>
                     </div>
                     <div class="form-check">
